@@ -48,7 +48,7 @@ class MyChat implements MessageComponentInterface
 
     public function onOpen(ConnectionInterface $conn)
     {
-        $this->clients->attach($conn);
+        $this->clients[$conn] = null; // SplObjectStorage->attach is deprecated as of PHP 8.5
     }
 
     public function onMessage(ConnectionInterface $from, $msg)
@@ -62,7 +62,7 @@ class MyChat implements MessageComponentInterface
 
     public function onClose(ConnectionInterface $conn)
     {
-        $this->clients->detach($conn);
+        unset($this->clients[$conn]); // SplObjectStorage->detach is deprecated as of PHP 8.5
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e)
